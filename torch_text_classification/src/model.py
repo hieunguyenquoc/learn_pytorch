@@ -26,7 +26,9 @@ class Text_classification(nn.Module):
         
         out = self.dropout(out)
         
-        out = torch.relu_(self.linear(out[:,-1,:]))
+        out = torch.relu_(out[:,-1,:])
+        
+        out = self.linear(out)
         
         return out
         
