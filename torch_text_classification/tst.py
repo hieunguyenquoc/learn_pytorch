@@ -1,27 +1,40 @@
-import pandas as pd
-import re 
-from sklearn.model_selection import train_test_split
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
-import numpy as np
+from underthesea import word_tokenize
+import re
 
 class Preprocessing:
-    def tokenization(self,X_train):
-        self.tokens = Tokenizer(num_words=1000)
-        self.tokens.fit_on_texts(X_train)
+    def tokenization(self, X_train):
+        self.tokens = word_tokenize(X_train)
+        return self.tokens
 
-    def sequence_to_token(self,input):
-        sequences = self.tokens.texts_to_sequences(input)
-        return pad_sequences(sequences, maxlen = 20)
+def clean_data(text):
+  text = re.sub(r'[^\s\wáàảãạăắằẳẵặâấầẩẫậéèẻẽẹêếềểễệóòỏõọôốồổỗộơớờởỡợíìỉĩịúùủũụưứừửữựýỳỷỹỵđ_]',' ',text)
+  text = text.lower()
+  return text
 
-X_train = ['70 years ago the first atomic attack flattened #Hiroshima 3 days later it was #Nagasaki both war crimes to put Moscow in its place'     
- 'Contruction upgrading ferries to earthquake standards in Vashon Mukilteo: The upgrades will bring the vulnera... http://t.co/Au5jWGT0ar'
- 'Just realized that maybe it not normal to sit up front with an Uber driver? Panicking']
+X_train = [
+    "Đây là câu số 1.",
+    "Đây là câu số 2.",
+    "Câu số 3 khác với câu số 1.",
+]
 
-X_train_arr = np.array(X_train)
 preprocess = Preprocessing()
-preprocess.tokenization()
-preprocess.sequence_to_token()
+X_tokens = [word for sentence in X_train for word in word_tokenize(clean_data(sentence))]
+X_tokens = {word: X_tokens.count(word) for word in X_tokens}
+print(X_tokens)
+
+input = "Đây là câu số 2"
+input_token = word_tokenize(input.lower())
+idx = []
+for token in input_token:
+    if token in X_tokens:
+        idx.append(list(X_tokens.keys()).index(token))
+    else:
+        idx.append(0)
+
+print(idx)
+
 
 
 

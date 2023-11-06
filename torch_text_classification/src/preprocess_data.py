@@ -14,7 +14,7 @@ class data_classication():
             label.append(i.split()[0])
             self.text.append(" ".join(i.split()[1:]))
         
-        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(text, label, test_size=self.test_size, shuffle=True)
+        self.X_train, self.X_test, self.Y_train, self.Y_test = train_test_split(self.text, label, test_size=self.test_size, shuffle=True)
 
     # def create_vocab(self):
 
