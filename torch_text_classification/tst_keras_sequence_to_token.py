@@ -10,9 +10,13 @@ text_data = [
 ]
 tokenizer.fit_on_texts(text_data)
 
-input = "Đây là câu số 2"
+input = [
+    "Đây là câu số 2.",
+    "Đây là câu số 4.",
+    "Câu số 3 khác với câu số 2.",
+]
 # Mã hóa câu thành chuỗi số nguyên
 encoded_data = tokenizer.texts_to_sequences(input)
 
 # In ra các câu đã được mã hóa
-print(encoded_data)
+print(pad_sequences(encoded_data, maxlen=20))
