@@ -1,15 +1,18 @@
 import torch
 import torch.nn as nn
+from preprocess_data import data_classication
 
 class Text_classification(nn.Module):
-    def __init__(self, num_embedding, embedding_dim, num_layer, dropout_rate, num_class):
+    def __init__(self):
         super(Text_classification,self).__init__()
         #parameter
-        self.num_embedding = num_embedding
-        self.embedding_dim = embedding_dim
-        self.num_layer = num_layer
-        self.dropout = dropout_rate
-        self.num_class = num_class
+        self.data_preprocess = data_classication()
+        self.data_preprocess.tokenization()
+        self.num_embedding = len(self.data_preprocess.tokens)
+        self.embedding_dim = 128
+        self.num_layer = 2
+        self.dropout = 0.2
+        self.num_class = 18
         
         #network stucture
         self.embedd = nn.Embedding(num_embeddings=self.num_embedding, embedding_dim=self.embedding_dim, padding_idx=0)

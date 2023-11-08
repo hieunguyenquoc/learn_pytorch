@@ -1,9 +1,11 @@
 import torch
 from torch.utils.data import Dataset, DataLoader
-from src.preprocess_data import data_classication
-from src.model import Text_classification
+from preprocess_data import data_classication
+from model import Text_classification
 import torch.optim as optim
 import torch.nn as nn
+import numpy as np
+import torch.nn.functional as F
 
 class customDataset(Dataset):
     def __init__(self,x,y):
@@ -43,7 +45,7 @@ class Trainer:
         #hyperameter
         self.learning_rate = 0.01
         self.batch_size = 64
-        self.epochs = 5
+        self.epochs = 2
 
     def train(self):
         #create Dataset
@@ -88,10 +90,29 @@ class Trainer:
                 optimizer.step()
 
                 prediction += list(y_pred.cpu().squeeze().detach().numpy())
+            
+            self.model.eval()
+            avg_test_loss = 0
+            test_preds = np.zeros((len(self.x_test), len(self.preprocess.label_encoder.classes_)))
+            with torch.no_grad():
+                for batch, (x_batch_test, y_batch_test) in enumerate(self.test_iter):
+                    x_test = x_batch_test.type(torch.LongTensor)
+                    y_test = y_batch_test.type(torch.LongTensor)
+
+                    x_test = x_test.to(self.device)
+                    y_test = y_test.to(self.device)
+
+                    y_pred_test = self.model(x_test)
+
+                    avg_test_loss += loss_fn(y_pred_test, y_test).item() / len(self.load_test)
+                    test_preds[batch * self.batch_size:(batch+1) * self.batch_size] = F.softmax(y_pred.cpu()).numpy() 
+            
 
         torch.save(self.model.state_dict(),"model/model.pt")
-
-
+        print("Done training phase")
+if __name__ == "__main__":
+    execute = Trainer()
+    execute.train()
 
 
 
