@@ -4,9 +4,9 @@ from keras.utils import pad_sequences
 from sklearn.preprocessing import LabelEncoder
 import re
 
-class data_classication:
+class data_classication():
     def __init__(self):
-        self.path_data = "torch_text_classification/data/news_categories.txt"
+        self.path_data = "D:/Learn_at_free_time/torch_text_classification/data/news_categories.txt"
         self.test_size = 0.2
 
     def clean_data(self, text):
@@ -49,8 +49,3 @@ class data_classication:
 
 
     # def create_vocab(self):
-
-        
-
-
-               

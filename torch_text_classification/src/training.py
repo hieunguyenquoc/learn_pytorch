@@ -24,8 +24,9 @@ class Trainer:
             self.device = "cuda"
         else:
             self.device = "cpu"
-
+        print(self.device)
         self.preprocess = data_classication()
+        self.preprocess.load_data()
         self.preprocess.tokenization()
 
         #load raw data
