@@ -105,7 +105,7 @@ class Trainer:
 
                     y_pred_test = self.model(x_test)
 
-                    avg_test_loss += loss_fn(y_pred_test, y_test).item() / len(self.load_test)
+                    avg_test_loss += loss_fn(y_pred_test, y_test).item() / len(self.test_iter)
                     test_preds[batch * self.batch_size:(batch+1) * self.batch_size] = F.softmax(y_pred.cpu()).numpy() 
             
 
