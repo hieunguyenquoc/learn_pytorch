@@ -29,7 +29,7 @@ class Text_classification(nn.Module):
         
         out = self.dropout(out)
         
-        out = torch.relu_(out[:,-1,:])
+        out = torch.relu_(out[:,-1,:]) #chọn ra bước thời gian cuối cùng của mỗi chuỗi trong batch. Dấu : trước -1 có nghĩa là chọn tất cả các phần tử theo chiều đầu tiên (kích thước batch), và sau -1 có nghĩa là chọn bước thời gian cuối cùng theo chiều thứ hai (độ dài chuỗi).
         
         out = self.linear(out)
         
