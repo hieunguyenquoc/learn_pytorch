@@ -7,6 +7,7 @@ class Text_classification(nn.Module):
         super(Text_classification,self).__init__()
         #parameter
         self.data_preprocess = data_classication()
+        self.data_preprocess.load_data()
         self.data_preprocess.tokenization()
         self.num_embedding = len(self.data_preprocess.tokens)
         self.embedding_dim = 128
@@ -21,9 +22,14 @@ class Text_classification(nn.Module):
         self.linear = nn.Linear(in_features=self.embedding_dim, out_features=18)
         
     def forward(self, x):
+        if torch.cuda.is_available():
+            device = "cuda"
+        else:
+            device = "cpu"
+            
         out = self.embedd(x)
         
-        h = torch.zeros((self.num_layer, x.size(0), self.embedding_dim))
+        h = torch.zeros((self.num_layer, x.size(0), self.embedding_dim), device=device)
         
         out, h = self.rnn(out, h)
         

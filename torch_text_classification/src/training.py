@@ -24,8 +24,9 @@ class Trainer:
             self.device = "cuda"
         else:
             self.device = "cpu"
-
+        print(self.device)
         self.preprocess = data_classication()
+        self.preprocess.load_data()
         self.preprocess.tokenization()
 
         #load raw data
@@ -104,7 +105,7 @@ class Trainer:
 
                     y_pred_test = self.model(x_test)
 
-                    avg_test_loss += loss_fn(y_pred_test, y_test).item() / len(self.load_test)
+                    avg_test_loss += loss_fn(y_pred_test, y_test).item() / len(self.test_iter)
                     test_preds[batch * self.batch_size:(batch+1) * self.batch_size] = F.softmax(y_pred.cpu()).numpy() 
             
 
