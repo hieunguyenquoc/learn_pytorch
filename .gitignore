@@ -1,1 +1,3 @@
 .data
+torch_machine_translation/data_csv
+torch_machine_translation/data_text
